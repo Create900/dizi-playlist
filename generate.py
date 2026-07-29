@@ -1,25 +1,49 @@
-#EXTM3U
+import os
+import yt_dlp
 
-#EXTINF:-1 tvg-name="Eşref Rüya" group-title="7/24 Canlı Diziler", Eşref Rüya 7/24 Canlı
-https://invidious.nerdvpn.de/latest_version?id=jS4yNqXITBI&itag=96
+channels = [
+    ("Eşref Rüya", "jS4yNqXITBI"),
+    ("Ezel", "9n-Du17MvQg"),
+    ("Çocuklar Duymasın", "4SrvTqYmHvM"),
+    ("Çukur", "rEhExHolYas"),
+    ("Kurtlar Vadisi Pusu", "4QICVoMeA4s"),
+    ("Cennet Mahallesi", "sIRnY47T9IU"),
+    ("Türk Malı", "CZj3aXwxsXQ"),
+    ("Sakarya Fırat", "LrXSGDCnmnQ")
+]
 
-#EXTINF:-1 tvg-name="Ezel" group-title="7/24 Canlı Diziler", Ezel 7/24 Canlı
-https://invidious.nerdvpn.de/latest_version?id=9n-Du17MvQg&itag=96
+ydl_opts = {
+    'quiet': True,
+    'skip_download': True,
+    'nocheckcertificate': True,
+    'extractor_args': {'youtube': {'player_client': ['mweb', 'android']}}
+}
 
-#EXTINF:-1 tvg-name="Çocuklar Duymasın" group-title="7/24 Canlı Diziler", Çocuklar Duymasın 7/24 Canlı
-https://invidious.nerdvpn.de/latest_version?id=4SrvTqYmHvM&itag=96
+def get_stream_url(video_id):
+    url = f"https://www.youtube.com/watch?v={video_id}"
+    try:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(url, download=False)
+            if info and 'url' in info and info['url']:
+                return info['url']
+            formats = info.get('formats') or []
+            if formats:
+                return formats[-1].get('url')
+    except Exception as e:
+        print(f"yt_dlp error for {video_id}: {e}")
+    
+    # Fallback kesintisiz canlı akış
+    return f"https://invidious.nerdvpn.de/latest_version?id={video_id}&itag=96"
 
-#EXTINF:-1 tvg-name="Çukur" group-title="7/24 Canlı Diziler", Çukur 7/24 Canlı
-https://invidious.nerdvpn.de/latest_version?id=rEhExHolYas&itag=96
+m3u_lines = ["#EXTM3U\n"]
 
-#EXTINF:-1 tvg-name="Kurtlar Vadisi Pusu" group-title="7/24 Canlı Diziler", Kurtlar Vadisi Pusu 7/24 Canlı
-https://invidious.nerdvpn.de/latest_version?id=4QICVoMeA4s&itag=96
+for name, video_id in channels:
+    print(f"Processing {name}...")
+    stream_url = get_stream_url(video_id)
+    m3u_lines.append(f'#EXTINF:-1 group-title="7/24 Canlı Diziler", {name} 7/24 Canlı')
+    m3u_lines.append(f"{stream_url}\n")
 
-#EXTINF:-1 tvg-name="Cennet Mahallesi" group-title="7/24 Canlı Diziler", Cennet Mahallesi 7/24 Canlı
-https://invidious.nerdvpn.de/latest_version?id=sIRnY47T9IU&itag=96
+with open("diziler.m3u", "w", encoding="utf-8") as f:
+    f.write("\n".join(m3u_lines))
 
-#EXTINF:-1 tvg-name="Türk Malı" group-title="7/24 Canlı Diziler", Türk Malı 7/24 Canlı
-https://invidious.nerdvpn.de/latest_version?id=CZj3aXwxsXQ&itag=96
-
-#EXTINF:-1 tvg-name="Sakarya Fırat" group-title="7/24 Canlı Diziler", Sakarya Fırat 7/24 Canlı
-https://invidious.nerdvpn.de/latest_version?id=LrXSGDCnmnQ&itag=96
+print("Playlist generated successfully!")
