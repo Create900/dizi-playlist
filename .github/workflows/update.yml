@@ -1,0 +1,35 @@
+name: Update M3U Playlist
+
+on:
+  schedule:
+    # Her 3 saatte bir otomatik çalışır
+    - cron: '0 */3 * * *'
+  workflow_dispatch: # Manuel çalıştırma butonu
+
+jobs:
+  update-playlist:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install yt-dlp
+        run: |
+          python -m pip install --upgrade pip
+          pip install yt-dlp
+
+      - name: Generate M3U Playlist
+        run: python generate.py
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add diziler.m3u
+          git commit -m "Auto update M3U playlist" || exit 0
+          git push
