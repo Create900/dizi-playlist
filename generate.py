@@ -1,21 +1,25 @@
-channels = [
-    ("Eşref Rüya", "jS4yNqXITBI"),
-    ("Ezel", "9n-Du17MvQg"),
-    ("Çocuklar Duymasın", "4SrvTqYmHvM"),
-    ("Çukur", "rEhExHolYas"),
-    ("Kurtlar Vadisi Pusu", "4QICVoMeA4s"),
-    ("Cennet Mahallesi", "sIRnY47T9IU"),
-    ("Türk Malı", "CZj3aXwxsXQ"),
-    ("Sakarya Fırat", "LrXSGDCnmnQ")
-]
+#EXTM3U
 
-m3u_content = "#EXTM3U\n\n"
+#EXTINF:-1 tvg-name="Eşref Rüya" group-title="7/24 Canlı Diziler", Eşref Rüya 7/24 Canlı
+https://invidious.nerdvpn.de/latest_version?id=jS4yNqXITBI&itag=96
 
-for name, video_id in channels:
-    m3u_content += f'#EXTINF:-1 group-title="7/24 Canlı Diziler", {name} 7/24 Canlı\n'
-    m3u_content += f"https://invidious.nerdvpn.de/latest_version?id={video_id}&itag=96\n\n"
+#EXTINF:-1 tvg-name="Ezel" group-title="7/24 Canlı Diziler", Ezel 7/24 Canlı
+https://invidious.nerdvpn.de/latest_version?id=9n-Du17MvQg&itag=96
 
-with open("diziler.m3u", "w", encoding="utf-8") as f:
-    f.write(m3u_content)
+#EXTINF:-1 tvg-name="Çocuklar Duymasın" group-title="7/24 Canlı Diziler", Çocuklar Duymasın 7/24 Canlı
+https://invidious.nerdvpn.de/latest_version?id=4SrvTqYmHvM&itag=96
 
-print("diziler.m3u olusturuldu!")
+#EXTINF:-1 tvg-name="Çukur" group-title="7/24 Canlı Diziler", Çukur 7/24 Canlı
+https://invidious.nerdvpn.de/latest_version?id=rEhExHolYas&itag=96
+
+#EXTINF:-1 tvg-name="Kurtlar Vadisi Pusu" group-title="7/24 Canlı Diziler", Kurtlar Vadisi Pusu 7/24 Canlı
+https://invidious.nerdvpn.de/latest_version?id=4QICVoMeA4s&itag=96
+
+#EXTINF:-1 tvg-name="Cennet Mahallesi" group-title="7/24 Canlı Diziler", Cennet Mahallesi 7/24 Canlı
+https://invidious.nerdvpn.de/latest_version?id=sIRnY47T9IU&itag=96
+
+#EXTINF:-1 tvg-name="Türk Malı" group-title="7/24 Canlı Diziler", Türk Malı 7/24 Canlı
+https://invidious.nerdvpn.de/latest_version?id=CZj3aXwxsXQ&itag=96
+
+#EXTINF:-1 tvg-name="Sakarya Fırat" group-title="7/24 Canlı Diziler", Sakarya Fırat 7/24 Canlı
+https://invidious.nerdvpn.de/latest_version?id=LrXSGDCnmnQ&itag=96
