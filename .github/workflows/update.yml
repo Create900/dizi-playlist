@@ -36,7 +36,17 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add diziler.m3u
-          git commit -m "Auto update M3U playlist" || echo "No changes to commit"
-          git fetch origin
-          git rebase origin/main || git rebase --abort || true
-          git push --force-with-lease origin main || true
+
+          # Eğer sahnelenmiş değişiklik yoksa çık
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          # Remote ile senkronize ol—non-fast-forward hatalarını azaltır
+          git fetch origin main
+          git rebase origin/main || git pull --rebase origin main || true
+
+          git commit -m "Auto update M3U playlist"
+          # remote ana branch'i koruyarak push et (force-with-lease daha güvenli)
+          git push --force-with-lease origin HEAD:main
